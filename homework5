@@ -1,0 +1,87 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+namespace ConsoleApp1
+{
+    public class OrderService
+    {
+        private Order order1;
+        public Order Order1 { get => order1; set => order1 = value; }
+
+         public void Add(OrderItem orderItem)
+         {
+             bool judge = true;
+             try
+             {
+                 Order1.OrderList.Add(orderItem);
+
+                 foreach(OrderItem x in Order1.OrderList)
+                 {
+                     if (x.OrderId1 == orderItem.OrderId1)
+                     {
+                         Console.WriteLine("此订单已存在,无法进行对同一订单号的添加");
+                         judge = false;
+                     }
+
+                 }
+                 if (judge)
+                 {
+                     Order1.OrderList.Add(orderItem);
+                 }
+
+             }
+             catch (Exception e)
+             {
+ @@ -28,7 +41,7 @@ public void Delete(OrderItem orderItem)
+         {
+             try
+             {
+               Order1.OrderList.Remove(orderItem);
+                         Order1.OrderList.Remove(orderItem);
+             }
+             catch (Exception e)
+             {
+ @@ -72,11 +85,14 @@ public IEnumerable<OrderItem> SelectByCommodityName(String commodityName)
+                     {
+                         return true;
+                     }
+                     return false;
+                 }
+                 return false;
+             });
+             foreach (OrderItem a in orderItem)
+             var ordeItem2 = orderItem.OrderBy(s =>
+             {
+                 return s.TotalPrice;
+             });
+             foreach (OrderItem a in ordeItem2)
+             {
+                 Console.WriteLine("下一条同类型数据");
+                 a.toString();
+            }
+            return orderItem;
+        }
+        public IEnumerable<OrderItem> SelectByGuestName(String guestName)
+        {
+            var orderItem = from s in Order1.OrderList where s.Guests.GuestName==guestName orderby s.TotalPrice select s;
+            foreach (OrderItem a in orderItem)
+            {
+                Console.WriteLine("下一条同类型数据");
+                a.toString();
+            }
+            return orderItem;
+        }
+        public IEnumerable<OrderItem> Sort()
+        {
+            var orderItem = from s in Order1.OrderList orderby s.TotalPrice select s;
+            foreach (OrderItem a in orderItem)
+            {
+                Console.WriteLine("下一条同类型数据");
+                a.toString();
+            }
+            return orderItem;
+        }
+    }
+}
